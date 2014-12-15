@@ -1,10 +1,8 @@
 #This is the source code of my blog
----
 
 This blog automatically transformed by [Jekyll](http://jekyllrb.com/) into a static site whenever I push this repository to Github.
 
 #Licence
----
 
 The following directories and their contents are Copyright ChenLin. You may not reuse anything therein without my permission:
 

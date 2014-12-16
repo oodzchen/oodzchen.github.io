@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh" xml:lang="zh" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>代码高亮测试 &ndash;OodzChen</title>
+	<meta charset="utf-8">
+	<meta name="author" content="OodzChen">
+	<meta name="description" content="web developer front-end interesting stuffs javascript css html">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="http://127.0.0.1:4000/css/style.css" media="screen, projection">
+	<link rel="shortcut icon" href="http://127.0.0.1:4000/favicon.ico">
+	<script>
+		// html5 tags for ie7
+		var arrEles = ["header", "main", "section", "nav", "footer", "hgroup", "figure", "summary"];
+		for(var i = 0; i < arrEles.length; i++){
+			document.createElement(arrEles[i]);
+		}
+	</script>
+	
+</head>
+<body>
+	<header id="head">
+		<div class="container clearfix">
+			<div id="logo"><a href="/" class="logo-text">OodzChen</a></div>
+			<nav id="nav">
+				<div class="nav-list">
+					<a href="/archive">文章</a><a href="/lab">实验室</a><a href="/about">关于</a>
+				</div>
+			</nav>
+		</div>
+	</header>
+	
+	<div id="content">
+	<main class="container">
+		<div class="list-box">
+			<article>
+				<header class="art-head">
+					<h2>代码高亮测试</h2>
+					<p class="info"><span class="art-date">December 14, 2014</span></p>
+				</header>
+				<div class="art-con">
+					<p>这是一段<code>javascript</code>代码</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">show</span><span class="p">(){</span>
+	<span class="nx">alert</span><span class="p">(</span><span class="mi">1111</span><span class="p">);</span>
+	<span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="nx">b</span><span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">a</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);},</span> <span class="mi">300</span><span class="p">);</span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="nx">b</span><span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">a</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);},</span> <span class="mi">300</span><span class="p">);</span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="nx">b</span><span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">a</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);},</span> <span class="mi">300</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">show</span><span class="p">(){</span>
+	<span class="nx">alert</span><span class="p">(</span><span class="mi">1111</span><span class="p">);</span>
+	<span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="nx">b</span><span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">a</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);},</span> <span class="mi">300</span><span class="p">);</span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="nx">b</span><span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">a</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);},</span> <span class="mi">300</span><span class="p">);</span><span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="nx">b</span><span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">a</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);},</span> <span class="mi">300</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>这是一段<code>css</code>代码</p>
+
+<div class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">body</span><span class="p">{</span>
+	<span class="k">padding</span><span class="o">:</span> <span class="m">10px</span> <span class="m">20px</span><span class="p">;</span>
+	<span class="k">margin</span><span class="o">:</span> <span class="m">0</span> <span class="k">auto</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.box</span><span class="p">{</span>
+	<span class="k">background-color</span><span class="o">:</span> <span class="m">#eee</span><span class="p">;</span>
+	<span class="k">color</span><span class="o">:</span> <span class="m">#666</span><span class="p">;</span>
+	<span class="k">font-family</span><span class="o">:</span> <span class="s2">&quot;微软雅黑&quot;</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>这是一段<code>html</code>代码</p>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;div&gt;</span>
+	<span class="nt">&lt;ul&gt;</span>
+		<span class="nt">&lt;li&gt;</span>1111<span class="nt">&lt;/li&gt;</span>
+		<span class="nt">&lt;li&gt;</span>1111<span class="nt">&lt;/li&gt;</span>
+		<span class="nt">&lt;li&gt;</span>1111<span class="nt">&lt;/li&gt;</span>
+		<span class="nt">&lt;li&gt;</span>1111<span class="nt">&lt;/li&gt;</span>
+	<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/div&gt;</span></code></pre></div>
+
+<p>这是一段<code>object-c</code>代码</p>
+
+<div class="highlight"><pre><code class="language-objc" data-lang="objc"><span class="cp">#import &quot;FOXEnvironment.h&quot;</span>
+
+
+<span class="k">const</span> <span class="bp">NSUInteger</span> <span class="n">FOXDefaultNumberOfTests</span> <span class="o">=</span> <span class="mi">500</span><span class="p">;</span>
+<span class="k">const</span> <span class="bp">NSUInteger</span> <span class="n">FOXDefaultMaximumSize</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="bp">NSUInteger</span> <span class="nf">FOXGetUIntegerFromEnv</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">envname</span><span class="p">,</span> <span class="bp">NSUInteger</span> <span class="n">defaultValue</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">envval</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="n">envname</span><span class="p">);</span>
+    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">number</span> <span class="o">=</span> <span class="n">defaultValue</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">envval</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">sscanf</span><span class="p">(</span><span class="n">envval</span><span class="p">,</span> <span class="s">&quot;%lu&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">number</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">NSUInteger</span><span class="p">)</span><span class="n">number</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">FOX_EXPORT</span> <span class="bp">NSUInteger</span> <span class="nf">FOXGetNumberOfTests</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">FOXGetUIntegerFromEnv</span><span class="p">(</span><span class="s">&quot;FOX_NUM_TESTS&quot;</span><span class="p">,</span> <span class="n">FOXDefaultNumberOfTests</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">FOX_EXPORT</span> <span class="bp">NSUInteger</span> <span class="nf">FOXGetMaximumSize</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">FOXGetUIntegerFromEnv</span><span class="p">(</span><span class="s">&quot;FOX_MAX_SIZE&quot;</span><span class="p">,</span> <span class="n">FOXDefaultMaximumSize</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">FOX_EXPORT</span> <span class="bp">NSUInteger</span> <span class="nf">FOXGetSeed</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">static</span> <span class="bp">NSUInteger</span> <span class="n">___seed</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">___seed</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">___seed</span> <span class="o">=</span> <span class="n">FOXGetUIntegerFromEnv</span><span class="p">(</span><span class="s">&quot;FOX_SEED&quot;</span><span class="p">,</span> <span class="p">(</span><span class="bp">NSUInteger</span><span class="p">)</span><span class="n">time</span><span class="p">(</span><span class="nb">NULL</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">___seed</span><span class="p">;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>好了，这个结束了</p>
+
+
+				</div>
+			</article>
+
+		</div>
+	</main>
+</div>
+
+	<footer id="foot">
+		<center>
+			<p class="copy-right">&copy;2014 OodzChen Powered by <a href="http://jekyllrb.com/" target="blank">Jekyll</a></p>
+			<p class="copy-right">Hosted by <a href="https://pages.github.com/" target="blank">Github Pages</a></p>
+		</center>
+	</footer>
+</body>
+</html>

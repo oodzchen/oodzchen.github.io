@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jump game</title>
+	<style>
+		*{
+			margin: 0; padding: 0;
+		}
+		.box{
+			position: relative;
+			width: 500px;
+			height: 300px;
+			background-color: green;
+			margin: auto;
+			overflow: hidden;
+		}
+		.block{
+			position: absolute;
+			top: 210px;
+			left: 10px;
+			width: 40px;
+			height: 80px;
+			background-color: white;
+			z-index: 2;
+		}
+		.line{
+			position: absolute;
+			top: 290px;
+			left: 0;
+			height: 1px;
+			width: 100%;
+			background-color: white;
+		}
+		.barrier{
+			position: absolute;
+			top: 200px;
+			left: 100%;
+			height: 90px;
+			width: 50px;
+			background-color: #E91E63;
+			z-index: 1;
+		}
+		.tip{
+			position: absolute;
+			top: 25px;
+			left: 0;
+			width: 100%;
+			font-size: 30px;
+			color: #fff;
+			text-align: center;
+			cursor: default;
+		}
+		.yellow{
+			color: yellow;
+		}
+	</style>
+
+	<script>
+		// Date.now() polyfill
+		if(!Date.now){
+			Date.now = function(){
+				return new Date().getTime();
+			}
+		}
+
+		// cross broswer requestAnimationFrame
+		(function(){
+			var lastTime = 0;
+			var vendors = ['webkit', 'moz', 'ms', 'o'];
+			for(var i=0; i < vendors.length && !window.requestAnimationFrame; i++){
+				window.requestAnimationFrame = window[vendors[i]+'requestAnimationFrame'];
+				window.cancelAnimationFrame = window[vendors[i]+'CancelAnimationFrame'] || window[vendors[i]+'CancelRequestAnimationFrame'];
+			}
+
+			// polyfill
+			if(!window.requestAnimationFrame){
+				window.requestAnimationFrame = function(callback, element){
+					var currTime = Date.now();
+					var callTime = Math.max(0, 16-(currTime - lastTime));
+					var id = setTimeout(function(){
+						callback()
+					}, callTime);
+					var lastTime = currTime + callTime;
+					return id;
+				}
+			}
+			if(!window.cancelAnimationFrame){
+				window.cancelAnimationFrame = function(id){
+					clearTimeout(id);
+				}
+			}
+		})()
+
+		Element.prototype.addClass = function(className){
+			if(typeof className == "string"){
+				this.className = className;
+				return this;
+			}
+		}
+
+		// 玩家类
+		function Player(element, lineHeight, options){
+			var self = this;
+			this.el = element;
+			this.elH = self.el.offsetHeight;
+			this.lineTop = lineHeight;
+			this.lockState = true; // 锁定跳跃
+			this.stopState = false;
+			this.anit = null;
+			this.posY = 210;
+			this.options = options || {
+				speedY: -20,
+				aY: 1
+			};
+
+			this.jump = function(speedY, aY){
+				if(!self.stopState && !self.lockState){
+					if(typeof speedY != "undefined") self.options.speedY = speedY;
+					if(typeof aY != "undefined") self.options.aY = aY;
+					self.stopState = true;
+					self.anit = requestAnimationFrame(move);
+				}else{
+					console.log('Locked !')
+				}
+				return self;
+			};
+
+			this.unlock = function(){
+				self.lockState = false;
+				return self;
+			};
+			this.lock = function(){
+				self.lockState = true;
+			};
+			this.stop = function(){
+				cancelAnimationFrame(self.anit); // 停止动画
+				self.stopState = false;
+				return self;
+			};
+			this.reset = function(){
+				self.el.style.top = (self.lineTop - self.elH) + "px";
+			};
+			this.getPosY = function(){
+				return self.posY;
+			}
+
+			function move(){
+				self.options.speedY += self.options.aY
+				self.posY = self.el.offsetTop + self.options.speedY;
+				self.el.style.top = self.posY + "px";
+				if(self.lineTop <= self.el.offsetTop + self.elH){
+					self.el.style.top = (self.lineTop - self.elH) + "px";
+					self.stopState = false;
+				}else{
+					self.anit = requestAnimationFrame(move);
+				}
+			}
+
+		}
+
+		// 障碍物类
+		function Barrier(player, el, width, boxW, speedX, callback){
+			var self = this;
+			this.el = el;
+			this.boxW = boxW;
+			this.elW = width;
+			this.speedX = speedX;
+			this.anit = null; // 动画框架
+			this.lock = false; // 锁定动画
+			this.posX = 0;
+			this.player = player;
+			this.callback = callback;
+			this.score = 0;
+
+			this.start = function(){
+				this.lock = false;
+				self.anit = requestAnimationFrame(move);
+				return self;
+			};
+
+			this.stop = function(){
+				this.lock = true;
+				cancelAnimationFrame(self.anit);
+				return self;
+			};
+
+			function move(){
+				var playerPosY = self.player.getPosY();
+				self.posX = self.el.offsetLeft + self.speedX;
+				self.el.style.left = self.posX + "px";
+				// 碰撞时Game Over
+				if(self.el.offsetTop < playerPosY + self.player.elH && self.posX <= 50 && self.posX >= -40){
+					self.stop();
+					self.callback.call(null, self.score);
+				}
+				if(self.el.offsetLeft <= -self.elW){
+					console.log("score:", ++self.score)
+					self.el.style.left = self.boxW + "px";
+				}
+				if(!self.lock){
+					requestAnimationFrame(move);
+				}
+			};
+		}
+
+		// 创建障碍物
+		function createBarrier(player, box, width, speed, callback){
+			var el = document.createElement('span').addClass('barrier');
+			return new Barrier(player, el, width, box.offsetWidth, speed, callback);
+		}
+
+		window.onload = function(){
+
+			var box = document.getElementById('box');
+			var el = document.getElementById('player');
+			var line = document.getElementById('line');
+			var tip = document.getElementById('title');
+			var barrier = null;
+			window.myPlayer = new Player(el, line.offsetTop);
+
+			document.addEventListener('keydown', function(e){
+				// Enter键开始游戏
+				if(e.keyCode == 13){
+					tip.innerHTML = "";
+					window.bar = createBarrier(myPlayer, box, 50, -6, gameOver);
+					if(barrier)box.removeChild(barrier);
+					box.appendChild(bar.el);
+					barrier = bar.el;
+					bar.start();
+					myPlayer.unlock();
+					myPlayer.reset();
+				}
+
+				// 空格键跳跃
+				if(e.keyCode == 32){
+					myPlayer.jump(-20, 1);
+				}
+				
+			});
+
+			document.addEventListener('keyup', function(e){
+				if(e.keyCode == 32){
+					myPlayer.stop();
+					// 松开键盘后的惯性速度
+					var speed = myPlayer.options.speedY < 0 ? myPlayer.options.speedY*0.6 : myPlayer.options.speedY;
+					myPlayer.jump(speed, 1);
+				}
+			})
+
+			function gameOver(score){
+				tip.innerHTML = "GAME OVER <br>" + score;
+			}
+			
+		}
+		
+	</script>
+</head>
+<body>
+	<div class="box" id="box">
+		<h3 id="title" class="tip">PRESS <span class="yellow">ENTER</span> TO START<br>PRESS <span class="yellow">SPACE</span> TO JUMP</h3>
+		<span class="block" id="player"></span>
+		<div class="line" id="line"></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unicode Emoji</title>
+  <style>
+    p{
+      word-break: break-all;
+      word-wrap: break-word;
+      font-size: 30px;
+    }
+  </style>
+
+  <script>
+    window.onload = function(){
+      var btn = document.getElementById('btn');
+      var minInput = document.getElementById('min');
+      var maxInput = document.getElementById('max');
+      var font = document.getElementById('fontFamily');
+
+      btn.onclick = function(){
+        var min = Number(minInput.value);
+        var max = Number(maxInput.value);
+        if(!isNaN(min) && !isNaN(max) && max > min){
+          generStr(min, max);
+        }else{
+          alert("请输入正确的数字");
+        }
+      };
+      btn.click();
+
+      minInput.onchange = function(){
+        btn.click();
+      };
+
+      maxInput.onchange = function(){
+        btn.click();
+      };
+
+      font.onchange = function(){
+        document.body.style.fontFamily = this.value;
+      }
+
+      function generStr(min, max){
+        var p = document.getElementById('chart');
+        // var span, arr = [];
+        p.innerHTML = "";
+        for(var i = min; i < max; i++){
+          // arr.push("<span title='"+i+"'>&#"+i+";</span>");
+          span = document.createElement("span");
+          span.title = i;
+          span.innerHTML = "&#" + i;
+          p.appendChild(span);
+        }
+        // p.innerHTML = arr.join("");
+      }
+
+    };
+  </script>
+</head>
+<body style="font-family: Apple Color Emoji;">
+  <h1>Unicode Emoji</h1>
+  <input type="text" id="min" placeholder="minmum" value="9621">-<input type="text" id="max" placeholder="maxmum" value="10175"> <button id="btn">GO!</button>&nbsp;&nbsp;&nbsp;
+  Font-Family: <select name="" id="fontFamily">
+    <option value="Apple Color Emoji">Apple Color Emoji</option>
+    <option value="Segoe UI Emoji">Segoe UI Emoji</option>
+    <option value="NotoColorEmoji">NotoColorEmoji</option>
+    <option value="Segoe UI Symbol">Segoe UI Symbol</option>
+    <option value="Android Emoji">Android Emoji</option>
+    <option value="EmojiSymbols">EmojiSymbols</option>
+  </select>
+  <p id="chart"></p>
+</body>
+</html>

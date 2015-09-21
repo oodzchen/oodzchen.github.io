@@ -993,6 +993,12 @@ Draggable(box, {
     positioned<span class="pl-k">:</span> <span class="pl-c1">true</span>
 });</pre><span class="radio-btn"><label><input type="radio" name="code" class="applyBtn">apply this code</label></span></div>
 
+<div class="md-highlight md-highlight-source-js"><pre><span class="pl-k">var</span> box <span class="pl-k">=</span> <span class="pl-c1">document</span>.<span class="pl-c1">getElementById</span>(<span class="pl-s"><span class="pl-pds">'</span>dragBox<span class="pl-pds">'</span></span>);
+
+Draggable(box, {
+    positioned<span class="pl-k">:</span> <span class="pl-c1">false</span>
+});</pre><span class="radio-btn"><label><input type="radio" name="code" class="applyBtn">apply this code</label></span></div>
+
 <h4>
 <a id="user-content-set-draggable-area-on-every-element" class="anchor" href="#set-draggable-area" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set draggable area on every element</h4>
 
@@ -1072,6 +1078,8 @@ Draggable(box, {
     {}, {
       positioned: true
     }, {
+      positioned: false
+    }, {
       dragElements: box.getElementsByTagName('div')
     }, {
       onDrag: function(dragIndex, cloneElem){
@@ -1099,9 +1107,9 @@ Draggable(box, {
           box = document.getElementById('dragBox');
 
           if(index < configs.length){
-            box.parentNode.className.replace(/\swide/, "");
-            
-            if(index === 2){
+            box.parentNode.className = box.parentNode.className.replace(/\swide/, "");
+
+            if(index === 3){
               var childs = box.children;
               for(var j = 0; j < childs.length; j++){
                 var temp = document.createElement('div');
@@ -1121,14 +1129,14 @@ Draggable(box, {
           }else if(index === radioBtns.length-1){
 
             addListener(testBtn, 'click', function(){
-              box.parentNode.className += " wide";
-              box.innerHTML = "";
-
               var val = Number(testVal.value);
               if(window.isNaN(val) || val < 2 || val%1 !== 0) {
                 alert('please enter a natural number which should be greater than 2');
                 return;
               }
+
+              box.parentNode.className += " wide";
+              box.innerHTML = "";
 
               generBlocks(box, val);
 
@@ -1145,7 +1153,6 @@ Draggable(box, {
       var box = elem;
       var i = n;
       while(i--){
-        console.log(i);
         var temp = document.createElement('li');
         temp.className = 'block';
         temp.textContent = i;

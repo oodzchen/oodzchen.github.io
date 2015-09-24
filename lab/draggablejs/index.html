@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <!-- saved from url=(0049) -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="utf-8"><style>body {
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<style>body {
   width: 45em;
   border: 1px solid #ddd;
   outline: 1300px solid #fff;
@@ -878,20 +882,28 @@ html, body{
 }
 
 body .markdown-body.box-left{
-  display: inline-block;
+  position: absolute;
   height: 100%;
   width: 36%;
+  background-color: #fff;
   padding: 0;
   overflow: auto;
-  vertical-align: top;
+  z-index: 10;
+  -webkit-transition: all 200ms;
+  -o-transition: all 200ms;
+  transition: all 200ms;
+}
+
+body.open .markdown-body.box-left{
+  width: 100%;
+  left: 0;
 }
 
 .box-right{
-  display: inline-block;
   height: 100%;
   width: 64%;
+  padding-left: 36%;
   overflow: auto;
-  vertical-align: top;
 }
 
 .left-inner{
@@ -959,6 +971,21 @@ li{
   transition: all 0.5s;
 }
 
+.menu-btn{
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  border: none;
+  background-color: #fff;
+  padding: 0 10px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  line-height: 1.6em;
+  font-size: 1.3em;
+  text-align: center;
+  z-index: 5;
+}
+
 .drag-bar{
   width: 100%;
   height: 30px;
@@ -968,6 +995,26 @@ li{
 
 .box.wide{
   width: 80%;
+}
+
+@media (max-width: 800px){
+
+  body .markdown-body.box-left{
+    position: absolute;
+    height: 100%;
+    width: 36%;
+    left: -36%;
+    background-color: #fff;
+    padding: 0;
+    overflow: auto;
+    z-index: 10;
+  }
+
+  .box-right{
+    width: 100%;
+    padding-left: 0;
+  }
+
 }
 
 </style><title>draggable</title>
@@ -1050,6 +1097,8 @@ Draggable(box, {
   </div>
 </div>
 
+<button class="menu-btn" id="menuBtn">☰ MENU</button>
+
 <script type="text/template" id="template">
   <ul class="clearfix" id="dragBox">
     <li class="block">01</li>
@@ -1073,6 +1122,7 @@ Draggable(box, {
     var radioBtns = document.querySelectorAll('input[type="radio"]');
     var testBtn = document.getElementById('testBtn');
     var testVal = document.getElementById('testVal');
+    var menuBtn = document.getElementById('menuBtn');
 
     var configs = [
     {}, {
@@ -1096,11 +1146,16 @@ Draggable(box, {
 
     Draggable(box);
 
+    addListener(menuBtn, 'click', function(){
+      document.body.className += 'open';
+    });
+
     for(var i = 0; i < radioBtns.length; i++){
       addListener(radioBtns[i], 'click', (function(index){
         return function(){
           box = document.getElementById('dragBox');
           var outer = box.parentNode;
+
           outer.removeChild(box);
           outer.innerHTML = template.textContent;
 
@@ -1108,6 +1163,7 @@ Draggable(box, {
 
           if(index < configs.length){
             box.parentNode.className = box.parentNode.className.replace(/\swide/, "");
+            document.body.className = document.body.className.replace(/open/, '');
 
             if(index === 3){
               var childs = box.children;
@@ -1130,6 +1186,9 @@ Draggable(box, {
 
             addListener(testBtn, 'click', function(){
               var val = Number(testVal.value);
+
+              document.body.className = document.body.className.replace(/open/, '');
+
               if(window.isNaN(val) || val < 2 || val%1 !== 0) {
                 alert('please enter a natural number which should be greater than 2');
                 return;

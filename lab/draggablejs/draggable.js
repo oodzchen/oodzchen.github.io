@@ -138,7 +138,7 @@ function Draggable(container, options) {
         addListener(dragElements[i], events.down, onMouseDown);
       }
     }
-
+    
   }
 
   function onMouseDown(ev) {

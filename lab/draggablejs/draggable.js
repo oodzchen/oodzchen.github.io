@@ -1,5 +1,5 @@
 /*
- * draggable.js
+ * draggable.js v1.1
  * 
  * author: Lin Chen https://github.com/oodzchen
  * Copyright 2015, MIT License
@@ -16,14 +16,27 @@ function Draggable(container, options) {
   var isPositioned = typeof options.positioned === "boolean" ? options.positioned : true;
   var onDragFn = options.onDrag || function(){};
   var onDropFn = options.onDrop || function(){};
-  var olderIE = navigator.userAgent.match(/MSIE 8|MSIE 7/);
+  var olderIE = !!navigator.userAgent.match(/MSIE 8|MSIE 7/);
+  var isMobile = !!navigator.userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i);
+  var events = isMobile ? {
+    down: 'touchstart',
+    move: 'touchmove',
+    up: 'touchend'
+  } : {
+    down: 'mousedown',
+    move: 'mousemove',
+    up: 'mouseup'
+  };
+
+  console.log(events);
+
   var box = container.length ? container[0] : container;
+  var dragElements = (options.dragElements && options.dragElements.length) ? options.dragElements : box;
   var childNodelist = box.children || (function(element) {
-    var clone = element.cloneNode(true);
-    var child = clone.childNodes;
+    var child = element.childNodes;
 
     for (var i = 0; i < child.length; i++) {
-      if (!(child[i] instanceof Element)) clone.removeChild(child[i]);
+      if (!(child[i] instanceof Element)) element.removeChild(child[i]);
     }
 
     return child;
@@ -84,14 +97,15 @@ function Draggable(container, options) {
   var isStart = false;
   var boxLeft = isPositioned ? box.offsetLeft : 0;
   var boxTop = isPositioned ? box.offsetTop : 0;
-  var primaryPositions = [];
-  var distanceX, distanceY, dragingElement, fromElement, cloneElement, beforeList;
+  var distanceX, distanceY, dragingElement, fromElement, cloneElement, beforeList, primaryPositions;
 
   init();
 
   function init() {
 
     if(isPositioned) setPositions();
+
+    primaryPositions = getPrimaryPositions(childNodelist);
 
     eventBind();
 
@@ -105,10 +119,6 @@ function Draggable(container, options) {
 
       temp.style.left = temp.offsetLeft + "px";
       temp.style.top = temp.offsetTop + "px";
-      primaryPositions.push({
-        left: temp.offsetLeft,
-        top: temp.offsetTop
-      });
 
       setTimeout((function(el) {
         return function() {
@@ -120,81 +130,102 @@ function Draggable(container, options) {
   }
 
   function eventBind() {
-    addListener(box, 'mousedown', onMouseDown);
+
+    if(dragElements === box){
+      addListener(box, events.down, onMouseDown);
+    }else{
+      for(var i = 0; i < dragElements.length; i++){
+        addListener(dragElements[i], events.down, onMouseDown);
+      }
+    }
+
   }
 
   function onMouseDown(ev) {
-    var ev = ev || window.event;
+    var _ev = isMobile ? ev.changedTouches[0] : (ev || window.event);
 
-    var target = ev.target || ev.srcElement;
+    var target = _ev.target || _ev.srcElement;
     var evX = 0,
       evY = 0;
 
     if (olderIE) {
 
-      if (ev.button !== 1) return;
+      if (_ev.button !== 1) return;
 
-      ev.returnValue = false;
+      _ev.returnValue = false;
 
-      evX = ev.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-      evY = ev.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+      evX = _ev.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+      evY = _ev.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 
     } else {
 
-      if (ev.button !== 0) return;
+      if (!isMobile && _ev.button !== 0 || _ev.touches && _ev.touches.length > 1) return;
 
       ev.preventDefault();
 
-      evX = ev.pageX;
-      evY = ev.pageY;
+      evX = _ev.pageX;
+      evY = _ev.pageY;
     }
 
+    console.log(ev);
+
     fromElement = dragingElement = getDragingElement(target);
+
+    if(dragingElement === null) return;
+
     dragingElement.style.transition = "none";
 
-    boxLeft = isPositioned ? box.offsetLeft : 0;
-    boxTop = isPositioned ? box.offsetTop : 0;
+    var scrollTop = getScroll(box, true);
+    var scrollLeft = getScroll(box, false);
+
+    boxLeft = isPositioned ? box.offsetLeft - scrollLeft : 0;
+    boxTop = isPositioned ? box.offsetTop - scrollTop : 0;
 
     distanceX = evX - (boxLeft + dragingElement.offsetLeft);
     distanceY = evY - (boxTop + dragingElement.offsetTop);
     beforeList = getCurrentList(elements);
 
-    addListener(document, 'mousemove', onMouseMove);
-    addListener(document, 'mouseup', onMouseUp);
+    addListener(document, events.move, onMouseMove);
+    addListener(document, events.up, onMouseUp);
   }
 
   function onMouseMove(ev) {
-    var ev = ev || window.event;
+    var _ev = isMobile ? ev.changedTouches[0] : (ev || window.event);
     var evX = 0,
       evY = 0;
 
     if (olderIE) {
-      ev.returnValue = false;
+      _ev.returnValue = false;
 
-      evX = ev.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-      evY = ev.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+      evX = _ev.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+      evY = _ev.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 
     } else {
 
       ev.preventDefault();
 
-      evX = ev.pageX;
-      evY = ev.pageY;
+      evX = _ev.pageX;
+      evY = _ev.pageY;
     }
 
-    var toElement = getElementByPosition(evX, evY, 0);
+    var toElement = getElementByPosition(evX, evY);
 
     if (!isStart) {
+
+      if(dragingElement === null) return;
+
       isStart = true;
 
       cloneElement = dragingElement.cloneNode(true);
+      
       cloneElement.style.position = "absolute";
       cloneElement.style.left = boxLeft + dragingElement.offsetLeft + "px";
       cloneElement.style.top = boxTop + dragingElement.offsetTop + "px";
       dragingElement.style.visibility = "hidden";
       document.body.appendChild(cloneElement);
 
-      onDragFn.call(this, getIndex(dragingElement), dragingElement);
+      var dragIndex = getIndex(dragingElement);
+      onDragFn.call(box, dragIndex, cloneElement);
 
     } else {
 
@@ -212,24 +243,34 @@ function Draggable(container, options) {
   function onMouseUp(ev) {
     var ev = ev || window.event;
 
+    if(isMobile){
+      var nowElement = getDragingElement(ev.changedTouches[0].target);
+
+      if (ev.touches.length > 1 || nowElement !== dragingElement || dragingElement === null) return;
+    }
+
     if (isStart) {
       dragingElement.style.visibility = "";
       document.body.removeChild(cloneElement);
       isStart = false;
       
-      onDropFn.call(this, getIndex(dragingElement), dragingElement);
+      var dropIndex = getIndex(fromElement);
+      onDropFn.call(box, dropIndex, childNodelist[dropIndex]);
     }
+
+    removeListener(document, 'mousemove', onMouseMove);
 
     dragingElement.style.transition = "";
     dragingElement = fromElement = cloneElement = null;
 
     if(olderIE && ev.srcElement.tagName === "A") ev.srcElement.click();
 
-    removeListener(document, 'mousemove', onMouseMove);
     removeListener(document, 'mouseup', onMouseUp);
   }
 
   function getDragingElement(clickedElement) {
+
+    if(!box.contains(clickedElement)) return null;
 
     if (clickedElement.parentNode === box) {
 
@@ -242,26 +283,27 @@ function Draggable(container, options) {
 
   }
 
-  function getElementByPosition(x, y, index) {
+  function getElementByPosition(x, y) {
 
-    if (index === elements.length) return null;
+    var i = elements.length;
 
-    var i = index;
-    var el = beforeList[i];
-    var pos = primaryPositions[i];
+    while(i--){
 
-    var elLeft = boxLeft + pos.left;
-    var elRight = elLeft + el.offsetWidth;
-    var elTop = boxTop + pos.top;
-    var elBottom = elTop + el.offsetHeight;
+      var el = beforeList[i];
+      var pos = primaryPositions[i];
 
-    if (x > elLeft && x < elRight && y > elTop && y < elBottom) {
-      return beforeList[i];
+      var elLeft = boxLeft + pos.left;
+      var elRight = elLeft + el.offsetWidth;
+      var elTop = boxTop + pos.top;
+      var elBottom = elTop + el.offsetHeight;
 
-    } else {
+      if (x > elLeft && x < elRight && y > elTop && y < elBottom) {
+        return beforeList[i];
+      }
 
-      return getElementByPosition(x, y, i + 1);
     }
+
+    return null;
 
   }
 
@@ -311,6 +353,32 @@ function Draggable(container, options) {
 
   function getCurrentList(elementArray) {
     return toArray.call(elementArray);
+  }
+
+  function getPrimaryPositions(elements){
+    var result = [];
+
+    for(var i = 0; i < elements.length; i++){
+      result.push({
+        left: elements[i].offsetLeft,
+        top: elements[i].offsetTop
+      });
+    }
+
+    return result;
+  }
+
+  function getScroll(element, isTop){
+    var scroll = isTop ? element.scrollTop : element.scrollLeft;
+
+    if(element === document.documentElement || element === document.body) return 0;
+
+    if(scroll){
+      return scroll;
+    }else{
+      return getScroll(element.parentNode, isTop);
+    }
+
   }
 
   // utilities

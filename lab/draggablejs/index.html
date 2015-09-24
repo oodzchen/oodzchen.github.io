@@ -882,7 +882,7 @@ html, body{
 }
 
 body .markdown-body.box-left{
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 36%;
   background-color: #fff;
@@ -900,10 +900,8 @@ body.open .markdown-body.box-left{
 }
 
 .box-right{
-  height: 100%;
   width: 64%;
   padding-left: 36%;
-  overflow: auto;
 }
 
 .left-inner{
@@ -972,7 +970,7 @@ li{
 }
 
 .menu-btn{
-  position: absolute;
+  position: fixed;
   top: 10px;
   left: 20px;
   border: none;
@@ -983,7 +981,7 @@ li{
   line-height: 1.6em;
   font-size: 1.3em;
   text-align: center;
-  z-index: 5;
+  z-index: 20;
 }
 
 .drag-bar{
@@ -1000,14 +998,8 @@ li{
 @media (max-width: 800px){
 
   body .markdown-body.box-left{
-    position: absolute;
-    height: 100%;
     width: 36%;
     left: -36%;
-    background-color: #fff;
-    padding: 0;
-    overflow: auto;
-    z-index: 10;
   }
 
   .box-right{
@@ -1020,7 +1012,8 @@ li{
 </style><title>draggable</title>
 
 <script src="draggable.js"></script>
-</head><body>
+</head>
+<body>
 <a href="https://github.com/oodzchen/draggable.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 <article class="markdown-body box-left">
 <div class="left-inner">
@@ -1147,7 +1140,13 @@ Draggable(box, {
     Draggable(box);
 
     addListener(menuBtn, 'click', function(){
-      document.body.className += 'open';
+
+      if(document.body.className.match(/open/)){
+        document.body.className = document.body.className.replace(/open/, '');
+      }else{
+        document.body.className += 'open';
+      }
+
     });
 
     for(var i = 0; i < radioBtns.length; i++){

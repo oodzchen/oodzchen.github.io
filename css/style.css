@@ -200,6 +200,10 @@ p.copy-right a{
 	border-top: none;
 }
 
+.con-btm{
+	margin-top: 30px;
+}
+
 /*------------sytax highlight--------------*/
 .highlight  { padding: 0.5rem 1rem; margin-bottom: 1rem; border-radius: 3px; overflow: auto; background: #272822; color: #f8f8f2 }
 .highlight .c { color: #75715e } /* Comment */

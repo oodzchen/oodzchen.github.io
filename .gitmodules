@@ -1,3 +1,6 @@
 [submodule "lab/canvas-tool"]
 	path = lab/canvas-tool
 	url = https://github.com/oodzchen/canvas-tool.git
+[submodule "lab/canvas-gravity-simulation"]
+	path = lab/canvas-gravity-simulation
+	url = https://github.com/oodzchen/canvas-gravity-simulation.git

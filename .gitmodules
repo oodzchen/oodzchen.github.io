@@ -4,3 +4,6 @@
 [submodule "lab/canvas-gravity-simulation"]
 	path = lab/canvas-gravity-simulation
 	url = https://github.com/oodzchen/canvas-gravity-simulation.git
+[submodule "lab/cnodejs-ngmd"]
+	path = lab/cnodejs-ngmd
+	url = https://github.com/oodzchen/cnodejs-ngmd.git

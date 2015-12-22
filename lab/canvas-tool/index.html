@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>canvas-tool</title>
+  <style>
+    a{
+      text-decoration: none;
+      color: #333;
+      font-size: 0.85em;
+    }
+
+    .btn{
+      display: inline-block;
+      width: 86px;
+      padding: 5px 0;
+      margin: 5px;
+      border: 1px solid #000;
+      border-radius: 3px;
+      text-align: center;
+    }
+
+    .btn-green{
+      background-color: green;
+      color: #fff;
+    }
+
+    .btn-disabled{
+      border-color: #ccc;
+      color: #ccc;
+      cursor: default;
+    }
+
+    .board{
+      border: 2px solid #000;
+      -webkit-box-shadow: 3px 3px 10px #333;
+      box-shadow: 3px 3px 10px #333;
+      cursor: default;
+    }
+
+    body.pointer{
+      cursor: crosshair;
+    }
+
+    body.pointer canvas.board, body.pointer a.crosshair{
+      cursor: crosshair;
+    }
+  </style>
+</head>
+<body>
+  <a href="javascript:;" id="setBg" class="btn">设置背景图</a>
+  <input type="file" accept="image/*" id="bgInput" style="display:none;">
+  <a href="javascript:;" id="open" class="btn">打开...</a>
+  <input type="file" accept="image/*" id="fileInput" multiple style="display:none;">
+  <label><input type="checkbox" id="forRetina">图片缩小一倍（用于retina屏幕）</label>
+  宽：<input type="text" id="boardWidth" size="2"> 高：<input type="text" id="boardHeight" size="2"> <a href="javascript:;" id="setSize" class="btn">设置画板大小</a>
+  <a href="javascript:;" id="setPoint" class="btn crosshair">打点</a>（向画板中拖拽图片可直接上传）
+  <hr>
+  <canvas id="canvas" class="board"></canvas>
+  <textarea id="results" cols="40" readonly="readonly"></textarea>
+  <div id="operate"><a href="javascript:;" id="undo" class="btn btn-disabled">← 撤销</a><a href="javascript:;" class="btn" id="resetPoint">清空所有点</a><a href="javascript:;" class="btn" id="resetImgs">清空所有图片</a><a href="javascript:;" class="btn" id="reset">清空全部内容</a><a href="javascript:;" class="btn" id="resetBackground">清除背景图</a></div>
+  <script src='app.js'></script>
+</body>
+</html>

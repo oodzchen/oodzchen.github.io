@@ -386,4 +386,4 @@
   }
 
   init();
-})(global)
+})(window)

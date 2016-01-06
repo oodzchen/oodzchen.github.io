@@ -13,12 +13,11 @@ header, main, section, nav, footer, hgroup, figure, summary {
 	display: block;
 }
 a {
-	color: #333;
+	color: #C10444;
 	text-decoration: none;
 	text-shadow: none;
 }
 a:hover{
-	color: #111;
 	text-decoration: underline;
 }
 a:focus{

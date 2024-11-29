@@ -3,16 +3,17 @@ layout: layout
 ---
 
 <div id="content">
-	<main class="container">
-		<h2>近期文章</h2>
-		<div class="list-box">
-			<ul class="page-list">
-				{% for post in site.posts limit:10 %}
-					<li>
-						<a href="{{ post.url }}" class="title">{{ post.title }}</a><span class="date">{{ post.date | date: "%B %e, %Y" }}</span>
-					</li>
-				{% endfor %}
-			</ul>
-		</div>
-	</main>
+  <main class="container">
+    <h2>近期文章</h2>
+    <div class="list-box">
+      <ul class="page-list">
+        {% for post in site.posts limit:10 %}
+        <li>
+          <a href="{{ post.url }}" class="title">{{ post.title }}</a
+          ><span class="date">{{ post.date | date: "%Y-%m-%d" }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </main>
 </div>

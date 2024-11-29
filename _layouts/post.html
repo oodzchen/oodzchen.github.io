@@ -3,40 +3,44 @@ layout: layout
 ---
 
 <div id="content">
-	<main class="container">
-		<div class="list-box">
-			<article>
-				<header class="art-head">
-					<h2>{{ page.title }}</h2>
-					<p class="info"><span class="art-date">{{ page.date | date: "%B %e, %Y" }}</span></p>
-				</header>
-				<div class="art-con">
-					{{ content }}
-				</div>
-			</article>
+  <main class="container">
+    <div class="list-box">
+      <article>
+        <header class="art-head">
+          <h2>{{ page.title }}</h2>
+          <p class="info">
+            <small class="art-date">{{ page.date | date: "%Y-%m-%d" }}</small>
+          </p>
+        </header>
+        <div class="art-con">{{ content }}</div>
+      </article>
+    </div>
 
-		</div>
+    <div class="con-btm">
+      <div id="disqus_thread"></div>
+      <script>
+        var disqus_config = function () {
+          this.page.url = "{{ site.url }}{{ page.url }}";
+          this.page.identifier = "{{ page.id }}";
+        };
 
-		<div class="con-btm">
-			<div id="disqus_thread"></div>
-			<script>
-			var disqus_config = function () {
-			this.page.url = '{{ site.url }}{{ page.url }}';
-			this.page.identifier = '{{ page.id }}';
-			};
-			
-			(function() { // DON'T EDIT BELOW THIS LINE
-			var d = document, s = d.createElement('script');
+        (function () {
+          // DON'T EDIT BELOW THIS LINE
+          var d = document,
+            s = d.createElement("script");
 
-			s.src = '//oodzchen.disqus.com/embed.js';
+          s.src = "//oodzchen.disqus.com/embed.js";
 
-			s.setAttribute('data-timestamp', +new Date());
-			(d.head || d.body).appendChild(s);
-			})();
-			</script>
-			<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
-		</div>
-
-	</main>
+          s.setAttribute("data-timestamp", +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+      <noscript
+        >Please enable JavaScript to view the
+        <a href="https://disqus.com/?ref_noscript" rel="nofollow"
+          >comments powered by Disqus.</a
+        ></noscript
+      >
+    </div>
+  </main>
 </div>

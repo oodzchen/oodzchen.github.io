@@ -1,4 +1,5 @@
-name: Kholin's Blog
-url: http://oodzchen.github.io
-description: web developer front-end interesting stuffs javascript css html
+name: K2DONG
+url: https://blog.k2dong.com
+description: Web developer front-end interesting stuffs javascript css html typescript linux emacs golang game dev
 github: oodzchen
+permalink: /:title/
